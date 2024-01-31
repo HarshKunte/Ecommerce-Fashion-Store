@@ -1,9 +1,11 @@
+import MenuComponent from './components/menu/menu.component';
+
+
 
 function App() {
+
   return (
-    <div className="App">
-      
-    </div>
+    <MenuComponent/>
   );
 }
 
