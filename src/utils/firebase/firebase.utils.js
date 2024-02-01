@@ -1,67 +1,74 @@
-import {initializeApp} from 'firebase/app'
-import {getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword}from 'firebase/auth'
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
 
-    apiKey: process.env.REACT_APP_API_KEY,
-  
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  
-    projectId: process.env.REACT_APP_PROJECT_ID,
-  
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  
-    appId: process.env.REACT_APP_APP_ID
-  
-  };
-  
-  
-  // Initialize Firebase
-  
-  export const app = initializeApp(firebaseConfig);
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
 
-  const provider = new GoogleAuthProvider()
+  projectId: process.env.REACT_APP_PROJECT_ID,
 
-  provider.setCustomParameters({
-    prompt: "select_account"
-  })
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
 
-  export const auth = getAuth();
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
 
-  export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
-  
-  export const db = getFirestore();
+  appId: process.env.REACT_APP_APP_ID,
+};
 
-  export const createUserDocFromAuth = async (userAuth) =>{
-    const userDocRef = doc(db, 'users', userAuth.uid)
+// Initialize Firebase
 
-    const userSnapshot = await getDoc(userDocRef)
+export const app = initializeApp(firebaseConfig);
 
-    if(!userSnapshot.exists()){
-        const {displayName, email} = userAuth
-        const createdAt = new Date()
+const provider = new GoogleAuthProvider();
 
-        try {
-            await setDoc(userDocRef,{
-                displayName,
-                email,
-                createdAt
-            })
-        } catch (error) {
-            console.log('error creating user', error);
-        }
+provider.setCustomParameters({
+  prompt: "select_account",
+});
+
+export const auth = getAuth();
+
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+export const db = getFirestore();
+
+export const createUserDocFromAuth = async (
+  userAuth,
+  additionalInformation = {}
+) => {
+  if (!userAuth) return;
+
+  const userDocRef = doc(db, "users", userAuth.uid);
+
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (!userSnapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+        ...additionalInformation,
+      });
+    } catch (error) {
+      console.log("error creating the user", error.message);
     }
-
-    return userDocRef
   }
 
+  return userDocRef;
+};
 
-  export const createAuthUserWithEmailAndPassword = async (email, password) => {
-    if (!email || !password) return;
-  
-    return await createUserWithEmailAndPassword(auth, email, password);
-  };
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
