@@ -1,6 +1,7 @@
 import Wrapper from "./components/Wrapper";
 import Home from "./routes/home/home.component";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Signin from "./routes/signin/signin.component";
 
 function App() {
   const router = createBrowserRouter([
@@ -11,6 +12,10 @@ function App() {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/sign-in",
+          element: <Signin />,
         },
       ],
     },
