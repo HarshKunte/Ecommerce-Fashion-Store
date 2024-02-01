@@ -1,28 +1,28 @@
 import {initializeApp} from 'firebase/app'
-import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider}from 'firebase/auth'
+import {getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword}from 'firebase/auth'
 
 import { getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyCGB75Tb4SMNsI7Z6S9iY9Qv_X_bdVleYI",
+    apiKey: process.env.REACT_APP_API_KEY,
   
-    authDomain: "ecommerce-fashion-store-db.firebaseapp.com",
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
   
-    projectId: "ecommerce-fashion-store-db",
+    projectId: process.env.REACT_APP_PROJECT_ID,
   
-    storageBucket: "ecommerce-fashion-store-db.appspot.com",
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   
-    messagingSenderId: "1061717862265",
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   
-    appId: "1:1061717862265:web:bd661fda0500ca4fa7b1a8"
+    appId: process.env.REACT_APP_APP_ID
   
   };
   
   
   // Initialize Firebase
   
-  const app = initializeApp(firebaseConfig);
+  export const app = initializeApp(firebaseConfig);
 
   const provider = new GoogleAuthProvider()
 
@@ -58,3 +58,10 @@ const firebaseConfig = {
 
     return userDocRef
   }
+
+
+  export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+  
+    return await createUserWithEmailAndPassword(auth, email, password);
+  };
