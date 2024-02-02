@@ -5,8 +5,9 @@ const Wrapper = () => {
     return (
         <>
             <Navbar/>
-
+            <div style={{padding:'0 8rem'}}>
             <Outlet/>
+            </div>
         </>
     );
 }
