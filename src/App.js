@@ -3,6 +3,9 @@ import Home from "./routes/home/home.component";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication from "./routes/authentication/authentication.component";
 import { UserProvider } from "./contexts/user.context";
+import { ProductContextProvider } from "./contexts/product.context";
+import Shop from "./components/shop/shop.component";
+import { CartContextProvider } from "./contexts/cart.context";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,13 +21,21 @@ function App() {
           path: "/auth",
           element: <Authentication />,
         },
+        {
+          path: "/shop",
+          element: <Shop />,
+        },
       ],
     },
   ]);
 
   return (
     <UserProvider>
-      <RouterProvider router={router} />
+      <ProductContextProvider>
+        <CartContextProvider>
+        <RouterProvider router={router} />
+        </CartContextProvider>
+      </ProductContextProvider>
     </UserProvider>
   );
 }

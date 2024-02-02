@@ -4,9 +4,13 @@ import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 import './navbar.styles.scss'
 import { UserContext } from "../../contexts/user.context";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
+import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
+import { CartContext } from "../../contexts/cart.context";
 
 const Navbar = () => {
   const {currentUser} = useContext(UserContext)
+  const {isCartOpen} = useContext(CartContext)
 
   const signOutHandler = async () =>{
     await signOutUser()
@@ -29,8 +33,11 @@ const Navbar = () => {
             SIGN IN
           </Link>)
           }
+
+          <CartIcon/>
           
         </div>
+        {isCartOpen && <CartDropdown/>}
       </div>
     </Fragment>
     );
