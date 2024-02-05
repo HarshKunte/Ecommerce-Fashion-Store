@@ -3,7 +3,7 @@ import Home from "./routes/home/home.component";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication from "./routes/authentication/authentication.component";
 import { UserProvider } from "./contexts/user.context";
-import { ProductContextProvider } from "./contexts/product.context";
+import { CategoriesProvider, ProductContextProvider } from "./contexts/categories.context";
 import Shop from "./components/shop/shop.component";
 import { CartContextProvider } from "./contexts/cart.context";
 import Checkout from "./routes/checkout-page/checkout.component";
@@ -23,7 +23,7 @@ function App() {
           element: <Authentication />,
         },
         {
-          path: "/shop",
+          path: "/shop/*",
           element: <Shop />,
         },
         {
@@ -36,11 +36,11 @@ function App() {
 
   return (
     <UserProvider>
-      <ProductContextProvider>
+      <CategoriesProvider>
         <CartContextProvider>
         <RouterProvider router={router} />
         </CartContextProvider>
-      </ProductContextProvider>
+      </CategoriesProvider>
     </UserProvider>
   );
 }

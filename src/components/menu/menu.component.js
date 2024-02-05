@@ -1,4 +1,4 @@
-import CategoryItem from "../category-item/category-item.component";
+import MenuCategoryItem from "../menu-category-item/menu-category-item.component";
 import './menu.styles.scss'
 
 const MenuComponent = () => {
@@ -32,7 +32,7 @@ const MenuComponent = () => {
     return (
         <div className="categories-container">
       {categories.map((category) => (
-          <CategoryItem key={category.id} category={category}/>
+          <MenuCategoryItem key={category.id} category={category}/>
       ))}
     </div>
     );
