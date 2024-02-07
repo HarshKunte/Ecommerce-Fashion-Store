@@ -7,7 +7,7 @@ import Checkout from "./routes/checkout-page/checkout.component";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { createUserDocFromAuth, onAuthStateChangeListener } from "./utils/firebase/firebase.utils";
-import { setCurrentUser } from "./store/user/user.action";
+import { setCurrentUser } from "./store/user/user.reducer";
 
 function App() {
 
